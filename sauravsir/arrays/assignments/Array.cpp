@@ -120,33 +120,3 @@ void Array::insert(int pos, int item)
         cout << "Item inserted\n";
     }
 }
-
-// int main()
-// {
-//     Array a1(2);
-//     a1.append(10);
-//     a1.append(20);
-//     a1.traverse();
-//     a1.edit(0, 30);
-//     a1.traverse();
-//     a1.deleteAt(0);
-//     a1.deleteAt(0);
-//     a1.traverse();
-//     if (a1.get(1))
-//         cout << a1.get(1);
-//     else
-//         cout << "Invalid index";
-
-//     cout << "\n";
-//     cout << a1.findOne(30);
-//     cout << "\n";
-//     cout << a1.count();
-
-//     Array a2(3);
-
-//     a2.insert(0, 10);
-//     a2.insert(1, 20);
-//     a2.insert(0, 5);
-//     a2.edit(2, 40);
-//     a2.traverse();
-// }
