@@ -19,6 +19,6 @@ function findLargestOptimal(arr = []) {
    return arr[0];
 }
 
-const arr = Array.from({ length: 10000000 }, (_, i) => i * 2);
+const arr = Array.from({ length: 10000 }, (_, i) => i * 2);
 console.log(findLargest(arr));
 console.log(findLargestOptimal(arr));
