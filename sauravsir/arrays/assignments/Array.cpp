@@ -76,7 +76,7 @@ void Array::edit(int pos, int item)
 void Array::deleteAt(int pos)
 {
     if (pos < 0 || pos > lastIndex)
-        __throw_bad_exception();
+        __throw_logic_error("Invalid index");
     else
     {
         for (int i = pos; i < lastIndex; i++)
