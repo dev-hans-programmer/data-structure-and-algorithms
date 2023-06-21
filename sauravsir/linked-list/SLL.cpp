@@ -109,12 +109,7 @@ void Sll::deleteLast()
     if (start)
     {
 
-        if (start == NULL)
-        {
-            cout << "Undeflow";
-        }
-
-        else if (start->next == NULL)
+        if (start->next == NULL)
         {
             delete start;
             start = NULL;
