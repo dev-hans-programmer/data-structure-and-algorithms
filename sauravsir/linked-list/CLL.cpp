@@ -15,6 +15,7 @@ private:
 
 public:
     CLL();
+    ~CLL();
     void insertBegin(int);
     void insertLast(int);
     void insertAfter(Node *, int);
@@ -22,7 +23,6 @@ public:
     void deleteFirst();
     void deleteLast();
     void deleteNode(Node *);
-    void logListEmpty();
 
     void traverse();
 };
@@ -31,9 +31,10 @@ CLL::CLL()
 {
     last = NULL;
 }
-
-void CLL::logListEmpty()
+CLL::~CLL()
 {
+    if (last)
+        deleteFirst();
 }
 
 void CLL::insertBegin(int data)
@@ -72,33 +73,48 @@ void CLL::insertLast(int data)
     }
 }
 
+void CLL::insertAfter(Node *ptr, int item)
+{
+    Node *n = new Node;
+    if (last)
+    {
+        n->data = item;
+        n->next = ptr->next;
+        ptr->next = n;
+
+        if (ptr == last)
+            last = n;
+    }
+}
+
 Node *CLL::search(int item)
 {
-    Node *current = last;
-    while (current != last->next)
+    Node *current;
+
+    if (last)
     {
-        if (current->data == item)
-            return current;
-        current = current->next;
+        current = last->next;
+        do
+        {
+            if (current->data == item)
+                return current;
+            current = current->next;
+        } while (current != last->next);
     }
-    return current->data == item ? current : NULL;
+    return NULL;
 }
 
 void CLL::deleteFirst()
 {
     if (last)
     {
-        if (last->next != last)
-        {
-            Node *current = last->next;
-            last->next = current->next;
-            delete current;
-        }
-        else
-        {
-            delete last;
+        Node *current = last->next;
+
+        if (last->next == last)
             last = NULL;
-        }
+        else
+            last->next = current->next;
+        delete current;
     }
     else
     {
@@ -111,24 +127,49 @@ void CLL::deleteLast()
 {
     if (last)
     {
-        if (last->next == last)
-            deleteFirst();
+        Node *current = last;
+        while (current->next != last)
+            current = current->next;
+
+        if (current == last)
+        {
+            delete last;
+            last = NULL;
+        }
+
         else
         {
-            Node *current = last->next;
-            Node *lastNode = last;
-            while (current->next != lastNode)
-                current = current->next;
-
             current->next = last->next;
+            delete last;
             last = current;
-            delete lastNode;
         }
     }
     else
     {
         cout << "No node found to delete "
              << " ";
+    }
+}
+
+void CLL::deleteNode(Node *ptr)
+{
+    if (last)
+    {
+        Node *prevNode = last->next;
+
+        if (prevNode == last)
+        {
+            delete prevNode;
+            last = NULL;
+        }
+        else
+        {
+            while (prevNode->next != ptr)
+                prevNode = prevNode->next;
+
+            prevNode->next = ptr->next;
+            delete ptr;
+        }
     }
 }
 
@@ -140,11 +181,17 @@ void CLL::traverse()
 
         do
         {
-            cout << current->data << " ";
+            if (current != last)
+                cout << current->data << " -> ";
+            else
+                cout << current->data << "";
             current = current->next;
             /* code */
         } while (current != last->next);
+        cout << "\n";
     }
+    else
+        cout << "No node found to traverse " << endl;
 }
 
 int main()
@@ -154,5 +201,11 @@ int main()
     c1.insertBegin(5);
     c1.insertLast(40);
 
-    cout << c1.search(20)->data << endl;
+    c1.traverse();
+    c1.insertAfter(c1.search(40), 50);
+    c1.deleteNode(c1.search(40));
+    c1.deleteLast();
+    c1.deleteLast();
+    c1.deleteLast();
+    c1.traverse();
 }
