@@ -12,6 +12,8 @@ public class Main {
      
      // var error = new GenericClassWithConstraint<String>() compile time error
      System.err.println("Max is " +GenericMethods.maxGeneric(1, 2));
-   
+    
+     GenericMethods.printKey("Name", "Hasan");
+     GenericMethods.printKey("Age", 26);
     } 
 } 
