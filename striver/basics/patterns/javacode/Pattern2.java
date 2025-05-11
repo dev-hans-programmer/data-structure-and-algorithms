@@ -1,4 +1,4 @@
-package striver.basics.patterns;
+package striver.basics.patterns.javacode;
 
 public class Pattern2 {
     public static void main(String[] args) {
