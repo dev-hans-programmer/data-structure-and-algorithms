@@ -1,5 +1,6 @@
 package striver.basics.recursion.javacode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class RecursionTest {
@@ -30,5 +31,9 @@ public class RecursionTest {
         System.out.println("Palindrome using recursion");
         char[] str = "margram".toCharArray();
         System.out.println(BasicRecursion.isPalindrome(str, str.length, 0));
+        System.out.println("Print all subsequence of an array");
+        Subsequence.printSubsequence(0, new ArrayList<>(), new int[] {3,1,2}, 3);
+        System.out.println("Longest common subsequence");
+        System.out.println( Subsequence.longestCommonSubsequence("abcde", "ace"));
     }
 }
