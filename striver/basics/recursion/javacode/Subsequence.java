@@ -51,4 +51,22 @@ public class Subsequence {
         return maxLen;
     }
     
+    public static void subsequenceWithSum(int index, List<Integer> subs, int [] arr, int size, int targetSum, int currentSum) {
+        if(index >= size) {
+            if(currentSum == targetSum) {
+                System.out.println((Arrays.toString(subs.toArray())));
+                
+            }
+            return;
+        }
+        // Take condition
+        subs.add(arr[index]);
+        currentSum += arr[index];
+        subsequenceWithSum(index + 1, subs, arr, size, targetSum, currentSum);
+
+        // Non take condition
+        subs.remove(subs.size() - 1); // remove last added element
+        currentSum -= arr[index];
+        subsequenceWithSum(index + 1, subs, arr, size, targetSum, currentSum);
+    }
 }

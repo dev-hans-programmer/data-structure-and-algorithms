@@ -35,5 +35,8 @@ public class RecursionTest {
         Subsequence.printSubsequence(0, new ArrayList<>(), new int[] {3,1,2}, 3);
         System.out.println("Longest common subsequence");
         System.out.println( Subsequence.longestCommonSubsequence("abcde", "ace"));
-    }
+        
+        Subsequence.subsequenceWithSum(0, new ArrayList<>(), new int[] {1, 2, 1}, 3, 2, 0);
+
+}
 }
