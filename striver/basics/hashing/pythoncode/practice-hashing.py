@@ -68,3 +68,4 @@ def test_practice_hashing():
     # print(p.count_freq_native([1, 2, 2, 1, 3]))
 
 test_practice_hashing()
+
