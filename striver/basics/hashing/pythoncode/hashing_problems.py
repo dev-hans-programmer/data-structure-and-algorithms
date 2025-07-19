@@ -73,6 +73,7 @@ def test_hashing_problems():
     # print(h.top_k_frequent([3,1,1,1,2,2,2,3], 2))
     print(h.top_k_frequent([3,0,1,0], 1))
 
+print("Hello")
 
 test_hashing_problems()
 
