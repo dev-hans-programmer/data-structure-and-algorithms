@@ -1,8 +1,9 @@
-class Sorting1():
+class Sorting1:
     """
     Selection Sort:
     Find the minimum and swap with the current index and go on till n - 2
     """
+
     def selection_sort(self, numbers: list[int]):
         i = 0
         length = len(numbers)
@@ -12,12 +13,13 @@ class Sorting1():
             while j <= length - 1:
                 if numbers[j] < numbers[min_idx]:
                     min_idx = j
-                j+= 1
+                j += 1
             temp = numbers[i]
             numbers[i] = numbers[min_idx]
             numbers[min_idx] = temp
-            i+= 1
+            i += 1
         return numbers
+
     def selection_sort_improved(self, nums: list[int]):
         n = len(nums)
 
@@ -30,9 +32,17 @@ class Sorting1():
                 nums[i], nums[min_idx] = nums[min_idx], nums[i]
         return nums
 
-
-
-            
+    def bubble_sort(self, nums: list[int]):
+        length = len(nums)
+        for passes in range(length):
+            swapped = False
+            for j in range(length - passes - 1):
+                if nums[j] > nums[j + 1]:
+                    nums[j], nums[j + 1] = nums[j + 1], nums[j]
+                    swapped = True
+            if not swapped:
+                break
+        return nums
 
 
 def test_sorting1():
@@ -44,6 +54,7 @@ def test_sorting1():
     print("After sorting")
     print(sorted_nums)
     print("Selection sort improved", sorting1.selection_sort_improved(nums))
+    print("Bubble Sort ", sorting1.bubble_sort(nums))
+
 
 test_sorting1()
-
