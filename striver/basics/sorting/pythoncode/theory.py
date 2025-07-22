@@ -43,18 +43,33 @@ class Sorting1:
             if not swapped:
                 break
         return nums
+    def insertion_sort(self, nums: list[int]):
+        for idx in range(1, len(nums)):
+            temp = nums[idx]
+            jdx = idx - 1
+            has_shifted = False
+            while jdx >= 0 and temp < nums[jdx]:
+                print(f"JDX {jdx}")
+                nums[jdx + 1] = nums[jdx]
+                has_shifted = True
+                jdx-=1
+            if has_shifted:
+                nums[jdx + 1] = temp
+        return nums
 
 
 def test_sorting1():
     sorting1 = Sorting1()
     nums = [13, 46, 24, 52, 20, 9]
-    print("Before sorting")
-    print(nums)
-    sorted_nums = sorting1.selection_sort([13, 46, 24, 52, 20, 9])
-    print("After sorting")
-    print(sorted_nums)
-    print("Selection sort improved", sorting1.selection_sort_improved(nums))
-    print("Bubble Sort ", sorting1.bubble_sort(nums))
+    # print("Before sorting")
+    # print(nums)
+    # sorted_nums = sorting1.selection_sort([13, 46, 24, 52, 20, 9])
+    # print("After sorting")
+    # print(sorted_nums)
+    # print("Selection sort improved", sorting1.selection_sort_improved(nums))
+    # print("Bubble Sort ", sorting1.bubble_sort(nums))
+    print("Unsorted", nums)
+    print("Insertion sort ", sorting1.insertion_sort(nums))
 
 
 test_sorting1()
