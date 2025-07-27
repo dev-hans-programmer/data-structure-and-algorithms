@@ -1,4 +1,4 @@
-package striver.basics.javatutorial.generics;
+package dsa.basics.javatutorial.generics;
 
 public class GenericMethods {
     public static int max(int a, int b) {

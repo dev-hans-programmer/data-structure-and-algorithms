@@ -1,4 +1,4 @@
-package striver.basics.javatutorial.generics;
+package dsa.basics.javatutorial.generics;
 
 public class Main {
    public static void main(String [] args) {

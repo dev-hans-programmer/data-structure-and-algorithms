@@ -1,4 +1,4 @@
-package striver.basics.javatutorial.exceptions;
+package dsa.basics.javatutorial.exceptions;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,7 +11,7 @@ public class ExceptionsDemo {
     public static void show() {
         sayHello(null);
         String currentDirectory = System.getProperty("user.dir");
-        String filePath = currentDirectory + File.separator + "striver" + File.separator + "basics" + File.separator
+        String filePath = currentDirectory + File.separator + "dsa" + File.separator + "basics" + File.separator
                 + "javatutorial" + File.separator + "exceptions" + File.separator + "test.txt";
         System.out.println(filePath);
         readFile(filePath);

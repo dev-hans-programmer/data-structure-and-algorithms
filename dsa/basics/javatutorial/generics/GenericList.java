@@ -1,4 +1,4 @@
-package striver.basics.javatutorial.generics;
+package dsa.basics.javatutorial.generics;
 
 public class GenericList<T> {
     private Object[] items = new Object[10];

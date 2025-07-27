@@ -1,4 +1,4 @@
-package striver.basics.recursion.javacode;
+package dsa.basics.recursion.javacode;
 
 public class BasicRecursion {
     // Print 1-N linearly

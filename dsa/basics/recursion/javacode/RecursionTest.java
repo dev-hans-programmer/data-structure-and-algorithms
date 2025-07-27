@@ -1,4 +1,4 @@
-package striver.basics.recursion.javacode;
+package dsa.basics.recursion.javacode;
 
 import java.util.ArrayList;
 import java.util.Arrays;

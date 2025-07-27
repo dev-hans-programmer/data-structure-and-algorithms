@@ -1,4 +1,4 @@
-package striver.basics.javatutorial.exceptions;
+package dsa.basics.javatutorial.exceptions;
 
 // checked -> Exception
 // unchecked -> RuntimeException
