@@ -48,14 +48,69 @@ class Sorting1:
             temp = nums[idx]
             jdx = idx - 1
             has_shifted = False
-            while jdx >= 0 and temp < nums[jdx]:
-                print(f"JDX {jdx}")
+            while jdx >= 0 and temp < nums[jdx]:    
                 nums[jdx + 1] = nums[jdx]
                 has_shifted = True
                 jdx-=1
             if has_shifted:
                 nums[jdx + 1] = temp
         return nums
+    def merge(self, nums: list[int], low: int, mid: int, high: int):
+        temp = []
+        left = low
+        right = mid + 1
+        while left <= mid and right <= high:
+            if nums[left] <= nums[right]:
+                temp.append(nums[left])
+                left += 1
+            else:
+                temp.append(nums[right])
+                right += 1
+        while left <= mid:
+            temp.append(nums[left])
+            left += 1
+        while right <= high:
+            temp.append(nums[right])
+            right += 1
+
+        for i in range(low, high + 1):
+            nums[i] = temp[i - low]
+
+
+    def merge_sort(self, nums: list[int], low: int, high: int):
+        if low >= high:
+            return
+        mid = (low + high) // 2
+        self.merge_sort(nums, low, mid)
+        self.merge_sort(nums, mid + 1, high)
+        self.merge(nums, low, mid, high)
+        return nums
+    def partition(self, nums: list[int], low: int, high: int):
+        pivot = nums[low]
+        i = low + 1
+        j = high
+
+        while True:
+            while  i <= high and nums[i] <= pivot:
+                i += 1
+            while j >= low and nums[j] > pivot:
+                j -= 1
+            if i >= j:
+                break
+
+            nums[i], nums[j] = nums[j], nums[i]
+        nums[low], nums[j] = nums[j], nums[low]
+        return j
+    
+    def quick_sort(self, nums: list[int], low: int, high: int):
+        if low < high: # More than one element
+            p_idx = self.partition(nums, low, high)
+            self.quick_sort(nums, low, p_idx - 1)
+            self.quick_sort(nums, p_idx + 1, high)
+            
+        return nums
+
+
 
 
 def test_sorting1():
@@ -69,7 +124,9 @@ def test_sorting1():
     # print("Selection sort improved", sorting1.selection_sort_improved(nums))
     # print("Bubble Sort ", sorting1.bubble_sort(nums))
     print("Unsorted", nums)
-    print("Insertion sort ", sorting1.insertion_sort(nums))
+    # print("Insertion sort ", sorting1.insertion_sort(nums))
+    # print(f"Merge Sort {sorting1.merge_sort(nums, 0, len(nums) - 1)}")
+    print(f"Quick Sort {sorting1.quick_sort(nums, 0, len(nums) - 1)}")
 
 
 test_sorting1()
