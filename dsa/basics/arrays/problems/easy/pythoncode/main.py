@@ -112,11 +112,92 @@ class EasyArrayProblems:
         # return self.r_duplicates_better(nums)
         return self.r_ruplicates_best(nums)
 
+    def reverse_array(self, nums: list[int], start: int, end: int):
+        while start < end:
+            nums[start], nums[end] = nums[end], nums[start]
+            start += 1
+            end -= 1
+
+    def left_rotate_by_one(self, nums: list[int]):
+        """
+        Given an integer array nums, rotate the array to the left by one.
+        Note: There is no need to return anything, just modify the given array.
+
+        In left rotation, first element goes to the last
+        """
+        temp = nums[0]
+
+        for i in range(len(nums) - 1):
+            nums[i] = nums[i + 1]
+        nums[i + 1] = temp
+
+    def right_rotate_by_one(self, nums: list[int]):
+        """
+        In right rotation, last element goes to the first
+        """
+        temp = nums[len(nums) - 1]
+
+        i = len(nums) - 1
+        while i > 0:
+            nums[i] = nums[i - 1]
+            i -= 1
+        nums[i] = temp
+
+    def left_rotate_by_kth_brute(self, nums: list[int], k: int):
+        n = len(nums)
+
+        for _ in range(k):
+            temp = nums[0]
+            j = 0
+            while j < n - 1:
+                nums[j] = nums[j + 1]
+                j += 1
+            nums[j] = temp
+
+    def left_rotate_by_kth_optimal(self, nums: list[int], k: int):
+        # reverse the k elements
+        n = len(nums)
+        k = k % n
+        if n == 0 or k == 0:
+            return
+        self.reverse_array(nums, 0, k - 1)
+        # reverse the n - k elements
+        self.reverse_array(nums, k, n - 1)
+        # reverse the entire array
+        self.reverse_array(nums, 0, n - 1)
+
+    def right_rotate_by_kth_brute(self, nums: list[int], k: int):
+        n = len(nums)
+
+        for _ in range(k):
+            temp = nums[n - 1]
+            j = n - 1
+            while j > 0:
+                nums[j] = nums[j - 1]
+                j -= 1
+            nums[j] = temp
+
+    def right_rotate_by_kth_better(self, nums: list[int], k: int):
+        # reverse the entire array
+        k = k % len(nums)
+        self.reverse_array(nums, 0, len(nums) - 1)
+        # reverse the first k elements
+        self.reverse_array(nums, 0, k - 1)
+        self.reverse_array(nums, k, len(nums) - 1)
+        # reverse the n - k elements
+        print(nums)
+
+    def right_rotate_by_kth(self, nums: list[int], k: int):
+        # self.right_rotate_by_kth_brute(nums, k)
+        self.right_rotate_by_kth_better(nums, k)
+
 
 def test_easy_array_problems():
     nums = [1, 4, 2, 3, 10]
     sorted_nums = [3, 4, 5, 1, 2]
     duplicated = [1, 1, 3, 2, 2, 10]
+    left_rotated_arr = [1, 2, 3, 4, 5, 6]
+    right_rotated_arr = [1, 2, 3, 4, 5, 6, 7]
     p = EasyArrayProblems()
     p.test()
     print(p.get_largest_element(nums))
@@ -125,6 +206,12 @@ def test_easy_array_problems():
     print(p.get_second_largest_optimal(nums))
     print(p.check_array_sorted_or_rotated(sorted_nums))
     print(p.remove_duplicates_from_sorted_array(duplicated))
+    # p.left_rotate_by_one(left_rotated_arr)
+    # p.left_rotate_by_kth_brute(left_rotated_arr, 2)
+    # print(f"After rotation {left_rotated_arr}")
+    # p.right_rotate_by_one(right_rotated_arr)
+    p.right_rotate_by_kth(right_rotated_arr, 3)
+    # print(f"After right rotation {right_rotated_arr}")
 
 
 if __name__ == "__main__":
