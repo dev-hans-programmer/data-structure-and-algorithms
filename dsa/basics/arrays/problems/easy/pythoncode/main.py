@@ -277,6 +277,110 @@ class EasyArrayProblems:
         return self.move_zeros_brute(nums)
         # return self.move_zeros_optimal(nums)
 
+    def linear_Search(self, nums: list[int], target: int):
+        for i in range(len(nums)):
+            if nums[i] == target:
+                return i
+        return -1
+
+    def union_arr_brute(self, nums1: list[int], nums2: list[int]):
+        """
+        Computes the union of two arrays using brute force.
+        Approach: Concatenate both arrays and use a set to remove duplicates.
+        Time: O(n + m), Space: O(n + m), where n and m are lengths of nums1 and nums2.
+        """
+        return sorted(list(set(nums1 + nums2)))
+
+    def union_arr_optimal(self, nums1: list[int], nums2: list[int]):
+        """
+        Computes the union of two sorted arrays using a true two-pointer approach.
+        Approach: Traverse both arrays, add unique elements to the result, skip duplicates efficiently.
+        Time: O(n + m), Space: O(n + m), where n and m are lengths of nums1 and nums2.
+        """
+        i, j = 0, 0
+        union = []
+        n1 = len(nums1)
+        n2 = len(nums2)
+        while i < n1 and j < n2:
+            # Skip duplicates in nums1
+            if i > 0 and nums1[i] == nums1[i - 1]:
+                i += 1
+                continue
+            # Skip duplicates in nums2
+            if j > 0 and nums2[j] == nums2[j - 1]:
+                j += 1
+                continue
+            if nums1[i] < nums2[j]:
+                union.append(nums1[i])
+                i += 1
+            elif nums1[i] > nums2[j]:
+                union.append(nums2[j])
+                j += 1
+            else:
+                union.append(nums1[i])
+                i += 1
+                j += 1
+        while i < n1:
+            if i == 0 or nums1[i] != nums1[i - 1]:
+                union.append(nums1[i])
+            i += 1
+        while j < n2:
+            if j == 0 or nums2[j] != nums2[j - 1]:
+                union.append(nums2[j])
+            j += 1
+        return union
+
+    def union_arr_optimal_2(self, nums1: list[int], nums2: list[int]):
+        i, j = 0, 0
+        n1, n2 = len(nums1), len(nums2)
+        union = []
+        while i < n1 and j < n2:
+            if nums1[i] < nums2[j]:
+                if len(union) == 0 or union[-1] != nums1[i]:
+                    union.append(nums1[i])
+                i += 1
+            else:
+                if len(union) == 0 or union[-1] != nums2[j]:
+                    union.append(nums2[j])
+                j += 1
+        while i < n1:
+            if len(union) == 0 or union[-1] != nums1[i]:
+                union.append(nums1[i])
+            i += 1
+        while j < n2:
+            if len(union) == 0 or union[-1] != nums2[j]:
+                union.append(nums2[j])
+            j += 1
+        return union
+
+    def merge_2_sorted_arrays(self, nums1: list[int], m: int, nums2: list[int], n: int):
+        """
+        Merges two sorted arrays into one sorted array in-place (LeetCode style).
+        Approach: Start from the end of both arrays and fill nums1 from the back, comparing elements.
+        Time: O(n + m), Space: O(1) (in-place, assuming nums1 has enough space).
+        """
+        p1 = m - 1
+        p2 = n - 1
+        p = m + n - 1
+        while p1 >= 0 and p2 >= 0:
+            if nums1[p1] > nums2[p2]:
+                nums1[p] = nums1[p1]
+                p1 -= 1
+            else:
+                nums1[p] = nums2[p2]
+                p2 -= 1
+            p -= 1
+        while p2 >= 0:
+            nums1[p] = nums2[p2]
+            p2 -= 1
+            p -= 1
+        return nums1
+
+    def union_arr(self, nums1: list[int], nums2: list[int]):
+        # return self.union_arr_brute(nums1, nums2)
+        # return self.union_arr_optimal(nums1, nums2)
+        return self.union_arr_optimal_2(nums1, nums2)
+
 
 def test_easy_array_problems():
     nums = [1, 4, 2, 3, 10]
@@ -300,6 +404,10 @@ def test_easy_array_problems():
     p.right_rotate_by_kth(right_rotated_arr, 3)
     # print(f"After right rotation {right_rotated_arr}")
     print(f"Zeros at the last {p.move_zeros(moving_zeros)}")
+    print(f"Union f{p.union_arr([1, 2, 3, 4, 5], [1, 2, 7])}")
+    print(
+        f"Merge 2 sorted array leetcode {p.merge_2_sorted_arrays([1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3)}"
+    )
 
 
 if __name__ == "__main__":
