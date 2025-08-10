@@ -381,14 +381,55 @@ class EasyArrayProblems:
         # return self.union_arr_optimal(nums1, nums2)
         return self.union_arr_optimal_2(nums1, nums2)
 
+    def missing_number_brute(self, nums: list[int]):
+        n = len(nums)
+        for i in range(n + 1):
+            if i not in nums:
+                return i
+        return None
+
+    def mising_number_better(self, nums: list[int]):
+        hash_arr = [0] * (len(nums) + 1)
+        for i in nums:
+            hash_arr[i] = 1
+        for idx, val in enumerate(hash_arr):
+            if val == 0:
+                return idx
+        return None
+
+    def missing_number_optimal(self, nums: list[int]):
+        n = len(nums)
+        s2 = n * (n + 1) // 2
+        return s2 - sum(nums)
+
+    def missing_number(self, nums: list[int]) -> int | None:
+        # return self.missing_number_brute(nums)
+        # return self.mising_number_better(nums)
+        return self.missing_number_optimal(nums)
+
+    def max_consecutive_ones(self, nums: list[int]):
+        max_count = 0
+
+        count = 0
+        for i in nums:
+            if i != 0:
+                count += 1
+                if count > max_count:
+                    max_count = count
+            else:
+                count = 0
+        return max_count
+
 
 def test_easy_array_problems():
     nums = [1, 4, 2, 3, 10]
     sorted_nums = [3, 4, 5, 1, 2]
     duplicated = [1, 1, 3, 2, 2, 10]
-    left_rotated_arr = [1, 2, 3, 4, 5, 6]
+    # left_rotated_arr = [1, 2, 3, 4, 5, 6]
     right_rotated_arr = [1, 2, 3, 4, 5, 6, 7]
     moving_zeros = [1, 0, 9, 4, 0, 0, 3]
+    missing_number_arr = [0, 1]
+    consecutive_1s = [1, 1, 0, 0, 1, 1, 1, 0]
     p = EasyArrayProblems()
     p.test()
     print(p.get_largest_element(nums))
@@ -408,6 +449,8 @@ def test_easy_array_problems():
     print(
         f"Merge 2 sorted array leetcode {p.merge_2_sorted_arrays([1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3)}"
     )
+    print(f"Missing number {p.missing_number(missing_number_arr)}")
+    print(f"Max consecutive ones {p.max_consecutive_ones(consecutive_1s)}")
 
 
 if __name__ == "__main__":
