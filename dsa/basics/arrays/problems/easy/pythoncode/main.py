@@ -382,6 +382,11 @@ class EasyArrayProblems:
         return self.union_arr_optimal_2(nums1, nums2)
 
     def missing_number_brute(self, nums: list[int]):
+        """
+        Finds the missing number in an array containing numbers from 0 to n using brute force.
+        Approach: Check for each number from 0 to n if it is present in the array.
+        Time: O(n^2), Space: O(1)
+        """
         n = len(nums)
         for i in range(n + 1):
             if i not in nums:
@@ -389,6 +394,11 @@ class EasyArrayProblems:
         return None
 
     def mising_number_better(self, nums: list[int]):
+        """
+        Finds the missing number using a hash array.
+        Approach: Mark presence of each number, then find the missing one.
+        Time: O(n), Space: O(n)
+        """
         hash_arr = [0] * (len(nums) + 1)
         for i in nums:
             hash_arr[i] = 1
@@ -398,18 +408,32 @@ class EasyArrayProblems:
         return None
 
     def missing_number_optimal(self, nums: list[int]):
+        """
+        Finds the missing number using sum formula.
+        Approach: Calculate expected sum and subtract actual sum.
+        Time: O(n), Space: O(1)
+        """
         n = len(nums)
         s2 = n * (n + 1) // 2
         return s2 - sum(nums)
 
     def missing_number(self, nums: list[int]) -> int | None:
+        """
+        Finds the missing number in an array from 0 to n using the optimal method by default.
+        Approach: Uses the optimal sum formula method.
+        Time: O(n), Space: O(1)
+        """
         # return self.missing_number_brute(nums)
         # return self.mising_number_better(nums)
         return self.missing_number_optimal(nums)
 
     def max_consecutive_ones(self, nums: list[int]):
+        """
+        Finds the maximum number of consecutive 1s in a binary array.
+        Approach: Count consecutive 1s, reset count on 0, track max.
+        Time: O(n), Space: O(1)
+        """
         max_count = 0
-
         count = 0
         for i in nums:
             if i != 0:
@@ -419,6 +443,104 @@ class EasyArrayProblems:
             else:
                 count = 0
         return max_count
+
+    def single_number_optimal_xor(self, nums: list[int]):
+        """
+        Finds the single number in an array where every other element appears twice using XOR.
+        Approach: XOR all elements; pairs cancel out, leaving the single number.
+        Time: O(n), Space: O(1)
+        """
+        res = 0
+        for num in nums:
+            res ^= num
+        return res
+
+    def single_number_brute(self, nums: list[int]):
+        """
+        Finds the single number using a frequency dictionary.
+        Approach: Count occurrences, return the number with count 1.
+        Time: O(n), Space: O(n)
+        """
+        freq = {}
+        for num in nums:
+            freq[num] = freq.get(num, 0) + 1
+        for f in freq:
+            if freq[f] < 2:
+                return f
+
+    def single_number(self, nums: list[int]):
+        """
+        Finds the single number in an array using the optimal XOR method by default.
+        Approach: Uses the optimal XOR method.
+        Time: O(n), Space: O(1)
+        """
+        # return self.single_number_brute(nums)
+        return self.single_number_optimal_xor(nums)
+
+    def longest_sub_arr_with_sum_k_brute1(self, nums: list[int], k: int):
+        """
+        Finds the length of the longest subarray with sum k using brute force (3 loops).
+        Approach: Check all possible subarrays and calculate their sum.
+        Time: O(n^3), Space: O(1)
+        """
+        n = len(nums)
+        max_length = 0
+        for i in range(n):
+            for j in range(i, n):
+                s = 0
+                for temp in range(i, j + 1):
+                    s += nums[temp]
+                if s == k:
+                    max_length = max(max_length, j - i + 1)
+        return max_length
+
+    def longest_sub_arr_with_sum_k_brute2(self, nums: list[int], k: int):
+        """
+        Finds the length of the longest subarray with sum k using improved brute force (2 loops).
+        Approach: For each start index, accumulate sum and check for k.
+        Time: O(n^2), Space: O(1)
+        """
+        n = len(nums)
+        max_length = 0
+        for i in range(n):
+            s = 0
+            for j in range(i, n):
+                s += nums[j]
+                if s == k:
+                    max_length = max(max_length, j - i + 1)
+        return max_length
+
+    def longest_sub_arr_with_sum_k_optimal(self, nums: list[int], k: int):
+        """
+        Finds the length of the longest subarray with sum k using prefix sum and hashing.
+        Approach: Use a hashmap to store the first occurrence of each prefix sum. For each index, check if (prefix_sum - k) exists; if so, update max length.
+        Time: O(n), Space: O(n)
+        """
+        n = len(nums)
+        max_length = 0
+        first_index = {}
+        prefix_sum = 0
+        for i in range(n):
+            prefix_sum += nums[i]
+            if prefix_sum == k:
+                max_length = max(max_length, i + 1)
+            want = prefix_sum - k
+            if want in first_index:
+                length = i - first_index[want]
+                max_length = max(max_length, length)
+            if prefix_sum not in first_index:
+                first_index[prefix_sum] = i
+        return max_length
+
+    def longest_sub_arr_with_sum_k(self, nums: list[int], k: int):
+        """
+        Finds the length of the longest subarray with sum k using the improved brute force method by default.
+        Approach: Uses the improved brute force (O(n^2)) method.
+        Time: O(n^2), Space: O(1)
+        """
+        # return self.longest_sub_arr_with_sum_k_brute1(nums, k)
+        # return self.longest_sub_arr_with_sum_k_brute2(nums, k)
+        return self.longest_sub_arr_with_sum_k_optimal(nums, k)
 
 
 def test_easy_array_problems():
@@ -430,6 +552,8 @@ def test_easy_array_problems():
     moving_zeros = [1, 0, 9, 4, 0, 0, 3]
     missing_number_arr = [0, 1]
     consecutive_1s = [1, 1, 0, 0, 1, 1, 1, 0]
+    single_number = [2, 2, 1]
+    longest_sub_arr_sum_k = [1, 2, 3, 1, 1, 1, 1]
     p = EasyArrayProblems()
     p.test()
     print(p.get_largest_element(nums))
@@ -451,6 +575,10 @@ def test_easy_array_problems():
     )
     print(f"Missing number {p.missing_number(missing_number_arr)}")
     print(f"Max consecutive ones {p.max_consecutive_ones(consecutive_1s)}")
+    print(f"Single Number {p.single_number(single_number)}")
+    print(
+        f"Longest sub array with Sum {p.longest_sub_arr_with_sum_k(longest_sub_arr_sum_k, 3)}"
+    )
 
 
 if __name__ == "__main__":
