@@ -532,6 +532,28 @@ class EasyArrayProblems:
                 first_index[prefix_sum] = i
         return max_length
 
+    def longest_sub_arr_with_sum_k_optimal_sliding(self, nums: list[int], k: int):
+        """
+        Finds the length of the longest subarray with sum k using the sliding window technique.
+        Approach: Expand the window to the right, shrink from the left when sum exceeds k.
+        Time: O(n), Space: O(1)
+
+        Note: This method only works when all array elements are non-negative (positives or zeros).
+        For arrays with negative numbers, use the prefix sum + hashmap approach.
+        """
+        left = 0
+        max_length = 0
+        n = len(nums)
+        sum = 0
+        for right in range(n):
+            sum += nums[right]
+            while sum > k:
+                sum -= nums[left]
+                left += 1
+            if sum == k:
+                max_length = max(max_length, right - left + 1)
+        return max_length
+
     def longest_sub_arr_with_sum_k(self, nums: list[int], k: int):
         """
         Finds the length of the longest subarray with sum k using the improved brute force method by default.
@@ -541,6 +563,7 @@ class EasyArrayProblems:
         # return self.longest_sub_arr_with_sum_k_brute1(nums, k)
         # return self.longest_sub_arr_with_sum_k_brute2(nums, k)
         return self.longest_sub_arr_with_sum_k_optimal(nums, k)
+        # return self.longest_sub_arr_with_sum_k_optimal_sliding(nums, k)
 
 
 def test_easy_array_problems():
@@ -553,7 +576,7 @@ def test_easy_array_problems():
     missing_number_arr = [0, 1]
     consecutive_1s = [1, 1, 0, 0, 1, 1, 1, 0]
     single_number = [2, 2, 1]
-    longest_sub_arr_sum_k = [1, 2, 3, 1, 1, 1, 1]
+    longest_sub_arr_sum_k = [10, 5, 2, 7, 1, -10]
     p = EasyArrayProblems()
     p.test()
     print(p.get_largest_element(nums))
@@ -577,7 +600,7 @@ def test_easy_array_problems():
     print(f"Max consecutive ones {p.max_consecutive_ones(consecutive_1s)}")
     print(f"Single Number {p.single_number(single_number)}")
     print(
-        f"Longest sub array with Sum {p.longest_sub_arr_with_sum_k(longest_sub_arr_sum_k, 3)}"
+        f"Longest sub array with Sum {p.longest_sub_arr_with_sum_k(longest_sub_arr_sum_k, 15)}"
     )
 
 
