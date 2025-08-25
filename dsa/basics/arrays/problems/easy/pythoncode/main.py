@@ -565,6 +565,66 @@ class EasyArrayProblems:
         return self.longest_sub_arr_with_sum_k_optimal(nums, k)
         # return self.longest_sub_arr_with_sum_k_optimal_sliding(nums, k)
 
+    def two_sum_brute(self, nums: list[int], target: int):
+        """
+        Finds two indices such that their values sum to the target using brute force.
+        Approach: Check all pairs of elements.
+        Time: O(n^2), Space: O(1)
+        """
+        n = len(nums)
+        for i in range(n):
+            for j in range(i + 1, n):
+                if nums[i] + nums[j] == target:
+                    return [i, j]
+        return [-1, -1]
+
+    def two_sum_optimal(self, nums: list[int], target: int):
+        """
+        Finds two indices such that their values sum to the target using a hashmap.
+        Approach: Store seen values in a dictionary and check for complement.
+        Time: O(n), Space: O(n)
+        """
+        mapping = {}
+        for i in range(len(nums)):
+            want = target - nums[i]
+            if want in mapping:
+                return [mapping[want], i]
+            mapping[nums[i]] = i
+
+    def two_sum_two_pointer(self, nums: list[int], target: int):
+        """
+        Checks if any two numbers sum to the target using the two-pointer technique.
+        Approach: Sort the array, use two pointers from both ends.
+        Time: O(n log n) (due to sorting), Space: O(n) (for sorted copy)
+        Note: Only returns 'yes' or 'No', not indices. Only works for sorted arrays.
+        """
+        left = 0
+        n = len(nums)
+        right = n - 1
+        sorted_nums = sorted(nums)
+        while left < right:
+            sum_val = sorted_nums[left] + sorted_nums[right]
+            if sum_val == target:
+                return "yes"
+            if sum_val > target:
+                right -= 1
+            else:
+                left += 1
+        return "No"
+
+    def two_sum(self, nums: list[int], target: int):
+        """
+        Finds two numbers in the array that sum to the target using the two-pointer method by default.
+        Approach: Uses the two-pointer method (works for sorted arrays, returns 'yes'/'No').
+        Time: O(n log n), Space: O(n)
+        """
+        # brute
+        # return self.two_sum_brute(nums, target)
+        # return self.two_sum_optimal(nums, target)
+        return self.two_sum_two_pointer(nums, target)
+        # better/optimal
+        # sliding window(only works for sorted arrays returing the )
+
 
 def test_easy_array_problems():
     nums = [1, 4, 2, 3, 10]
@@ -577,6 +637,7 @@ def test_easy_array_problems():
     consecutive_1s = [1, 1, 0, 0, 1, 1, 1, 0]
     single_number = [2, 2, 1]
     longest_sub_arr_sum_k = [10, 5, 2, 7, 1, -10]
+    two_sum_arr = [2, 7, 11, 15]
     p = EasyArrayProblems()
     p.test()
     print(p.get_largest_element(nums))
@@ -602,6 +663,7 @@ def test_easy_array_problems():
     print(
         f"Longest sub array with Sum {p.longest_sub_arr_with_sum_k(longest_sub_arr_sum_k, 15)}"
     )
+    print(f"Two sum {p.two_sum(two_sum_arr, 9)}")
 
 
 if __name__ == "__main__":
