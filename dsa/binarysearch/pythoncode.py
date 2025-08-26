@@ -121,6 +121,36 @@ class BinarySearch:
                 low = mid + 1
         return position
 
+    def floor(self, nums: list[int], target: int):
+        n = len(nums)
+        ans = -1
+        low, high = 0, n - 1
+
+        while low <= high:
+            mid = low + (high - low) // 2
+
+            if nums[mid] <= target:
+                ans = mid
+                low = mid + 1
+            else:
+                high = mid - 1
+        return ans
+
+    def ceil(self, nums: list[int], target: int):
+        n = len(nums)
+        ans = n
+        low, high = 0, n - 1
+
+        while low <= high:
+            mid = low + (high - low) // 2
+
+            if nums[mid] >= target:
+                ans = mid
+                high = mid - 1
+            else:
+                low = mid + 1
+        return ans
+
 
 def test_binary_search():
     bs = BinarySearch()
