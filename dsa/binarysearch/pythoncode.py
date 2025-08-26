@@ -122,6 +122,10 @@ class BinarySearch:
         return position
 
     def floor(self, nums: list[int], target: int):
+        """
+        Finds the index of the largest element less than or equal to target (floor) in a sorted array. nums[idx] <= target
+        Note: Returns -1 if all elements are greater than target. Only works for sorted arrays (ascending order).
+        """
         n = len(nums)
         ans = -1
         low, high = 0, n - 1
@@ -137,6 +141,10 @@ class BinarySearch:
         return ans
 
     def ceil(self, nums: list[int], target: int):
+        """
+        Finds the index of the smallest element greater than or equal to target (ceil) in a sorted array. nums[idx] >= target
+        Note: Returns n if all elements are less than target. Only works for sorted arrays (ascending order).
+        """
         n = len(nums)
         ans = n
         low, high = 0, n - 1
@@ -157,6 +165,9 @@ def test_binary_search():
     inp = [3, 4, 6, 7, 9, 12, 16, 17]
     print(bs.search_number(inp, 17))
     print(bs.search_number_recursive(inp, 0, len(inp) - 1, 17))
+    # Test floor and ceil
+    print("Floor of 10:", bs.floor(inp, 10))  # Should print index of 9 (which is 4)
+    print("Ceil of 10:", bs.ceil(inp, 10))  # Should print index of 12 (which is 5)
 
 
 test_binary_search()
