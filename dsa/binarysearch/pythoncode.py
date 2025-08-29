@@ -160,55 +160,81 @@ class BinarySearch:
         return ans
 
     def search_in_rotated_sorted_array(self, nums: list[int], target: int):
+        """
+        Searches for target in a rotated sorted array with no duplicates.
+        Approach: Modified binary search to determine which half is sorted and adjust search accordingly.
+        Time: O(log n), Space: O(1)
+        Returns the index if found, else -1.
+        Note: Only works for rotated sorted arrays (ascending order, no duplicates).
+        """
         n = len(nums)
         low, high = 0, n - 1
 
         while low <= high:
+            # Calculate mid to avoid overflow
             mid = low + (high - low) // 2
 
+            # If the mid element is the target, return its index
             if nums[mid] == target:
                 return mid
-            # check which half is sorted
+
+            # Check which half is sorted
             if nums[low] < nums[mid]:
-                if nums[low] <= target and target <= nums[mid]:
+                # Left half is sorted
+                if nums[low] <= target <= nums[mid]:
+                    # Target is in the left half
                     high = mid - 1
                 else:
+                    # Target is in the right half
                     low = mid + 1
             else:
-                if nums[mid] <= target and target <= nums[high]:
+                # Right half is sorted
+                if nums[mid] <= target <= nums[high]:
+                    # Target is in the right half
                     low = mid + 1
                 else:
+                    # Target is in the left half
                     high = mid - 1
         return -1
 
     def search_in_rotated_sorted_array_2(self, nums: list[int], target: int):
         """
-        Might contain duplicate values
-
+        Searches for target in a rotated sorted array that may contain duplicates.
+        Approach: Modified binary search with extra checks for duplicates.
+        Time: O(log n) average, O(n) worst case (when duplicates are present).
+        Returns True if found, else False.
+        Note: Handles rotated sorted arrays with duplicates.
         """
         n = len(nums)
         low, high = 0, n - 1
 
         while low <= high:
+            # Calculate mid to avoid overflow
             mid = low + (high - low) // 2
 
+            # If the mid element is the target, return True
             if nums[mid] == target:
                 return True
 
-            # check if low, mid and high values are equal then shrink it
+            # If low, mid, and high are all equal, we can't determine the sorted half, so shrink the window
             if nums[low] == nums[mid] == nums[high]:
                 low += 1
                 high -= 1
-
-            if nums[low] < nums[mid]:
-                if nums[low] <= target and target <= nums[mid]:
+            # Left half is sorted
+            elif nums[low] < nums[mid]:
+                if nums[low] <= target <= nums[mid]:
+                    # Target is in the left half
                     high = mid - 1
                 else:
+                    # Target is in the right half
                     low = mid + 1
+            # Right half is sorted
             else:
-                if nums[mid] <= target and target <= nums[high]:
+                if nums[mid] <= target <= nums[high]:
+                    # Target is in the right half
                     low = mid + 1
                 else:
+                    # Target is in the left half
                     high = mid - 1
         return False
 
