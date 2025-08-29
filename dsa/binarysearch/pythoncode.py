@@ -159,6 +159,59 @@ class BinarySearch:
                 low = mid + 1
         return ans
 
+    def search_in_rotated_sorted_array(self, nums: list[int], target: int):
+        n = len(nums)
+        low, high = 0, n - 1
+
+        while low <= high:
+            mid = low + (high - low) // 2
+
+            if nums[mid] == target:
+                return mid
+            # check which half is sorted
+            if nums[low] < nums[mid]:
+                if nums[low] <= target and target <= nums[mid]:
+                    high = mid - 1
+                else:
+                    low = mid + 1
+            else:
+                if nums[mid] <= target and target <= nums[high]:
+                    low = mid + 1
+                else:
+                    high = mid - 1
+        return -1
+
+    def search_in_rotated_sorted_array_2(self, nums: list[int], target: int):
+        """
+        Might contain duplicate values
+
+        """
+        n = len(nums)
+        low, high = 0, n - 1
+
+        while low <= high:
+            mid = low + (high - low) // 2
+
+            if nums[mid] == target:
+                return True
+
+            # check if low, mid and high values are equal then shrink it
+            if nums[low] == nums[mid] == nums[high]:
+                low += 1
+                high -= 1
+
+            if nums[low] < nums[mid]:
+                if nums[low] <= target and target <= nums[mid]:
+                    high = mid - 1
+                else:
+                    low = mid + 1
+            else:
+                if nums[mid] <= target and target <= nums[high]:
+                    low = mid + 1
+                else:
+                    high = mid - 1
+        return False
+
 
 def test_binary_search():
     bs = BinarySearch()
@@ -168,6 +221,12 @@ def test_binary_search():
     # Test floor and ceil
     print("Floor of 10:", bs.floor(inp, 10))  # Should print index of 9 (which is 4)
     print("Ceil of 10:", bs.ceil(inp, 10))  # Should print index of 12 (which is 5)
+    print(
+        f"Search in Rotated sorted array {bs.search_in_rotated_sorted_array([4, 5, 6, 7, 0, 1, 2], 5)}"
+    )
+    print(
+        f"Search in Rotated sorted array 2 {bs.search_in_rotated_sorted_array_2([2, 5, 6, 0, 0, 1, 2], 2)}"
+    )
 
 
 test_binary_search()
