@@ -271,32 +271,44 @@ class BinarySearch:
         return ans
 
     def find_k_rotation(self, nums: list[int]):
+        """
+        Finds the number of times a sorted array has been rotated (index of the minimum element).
+        Approach: Modified binary search to find the index of the minimum element (rotation count).
+        Time: O(log n), Space: O(1)
+        Returns the index of the minimum value in the array (rotation count).
+        Note: Only works for rotated sorted arrays (ascending order, no duplicates).
+        """
         n = len(nums)
         low, high = 0, n - 1
-        ans = float("inf")
-        ans_idx = -1
+        ans = float("inf")  # Initialize answer to infinity
+        ans_idx = -1  # Initialize index of minimum
 
         while low <= high:
+            # Calculate mid to avoid overflow
             mid = low + (high - low) // 2
 
             low_val = nums[low]
             mid_value = nums[mid]
 
+            # If the entire search space is sorted, the minimum is at low
             if low_val <= nums[high]:
                 if ans > low_val:
                     ans = low_val
                     ans_idx = low
-                    break
+                break
+
+            # If the left half is sorted
             if low_val <= mid_value:
                 if ans > low_val:
                     ans = low_val
                     ans_idx = low
-                low = mid + 1
+                low = mid + 1  # Move to the right half
             else:
+                # Otherwise, the right half is sorted or contains the min
                 if ans > mid_value:
                     ans = mid_value
                     ans_idx = mid
-                high = mid - 1
+                high = mid - 1  # Move to the left half
         return ans_idx
 
 
