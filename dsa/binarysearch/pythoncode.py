@@ -179,7 +179,7 @@ class BinarySearch:
                 return mid
 
             # Check which half is sorted
-            if nums[low] < nums[mid]:
+            if nums[low] <= nums[mid]:
                 # Left half is sorted
                 if nums[low] <= target <= nums[mid]:
                     # Target is in the left half
@@ -220,8 +220,9 @@ class BinarySearch:
             if nums[low] == nums[mid] == nums[high]:
                 low += 1
                 high -= 1
+                continue
             # Left half is sorted
-            elif nums[low] < nums[mid]:
+            elif nums[low] <= nums[mid]:
                 if nums[low] <= target <= nums[mid]:
                     # Target is in the left half
                     high = mid - 1
@@ -238,6 +239,29 @@ class BinarySearch:
                     high = mid - 1
         return False
 
+    def find_min(self, nums: list[int]):
+        n = len(nums)
+        low, high = 0, n - 1
+
+        ans = float("inf")
+
+        while low <= high:
+            mid = low + (high - low) // 2
+
+            # if the entire search space is sorted
+            if nums[low] <= nums[high]:
+                ans = min(ans, nums[low])
+                break
+
+            # find first half is sorted
+            if nums[low] <= nums[mid]:
+                ans = min(ans, nums[low])
+                low = mid + 1
+            else:
+                ans = min(ans, nums[mid])
+                high = mid - 1
+        return ans
+
 
 def test_binary_search():
     bs = BinarySearch()
@@ -253,6 +277,7 @@ def test_binary_search():
     print(
         f"Search in Rotated sorted array 2 {bs.search_in_rotated_sorted_array_2([2, 5, 6, 0, 0, 1, 2], 2)}"
     )
+    print(f"Find Mind {bs.find_min([3, 4, 5, 1, 2])}")
 
 
 test_binary_search()
