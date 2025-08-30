@@ -240,26 +240,34 @@ class BinarySearch:
         return False
 
     def find_min(self, nums: list[int]):
+        """
+        Finds the minimum element in a rotated sorted array (no duplicates).
+        Approach: Modified binary search to find the inflection point (minimum).
+        Time: O(log n), Space: O(1)
+        Returns the minimum value in the array.
+        Note: Only works for rotated sorted arrays (ascending order, no duplicates).
+        """
         n = len(nums)
         low, high = 0, n - 1
-
-        ans = float("inf")
+        ans = float("inf")  # Initialize answer to infinity
 
         while low <= high:
+            # Calculate mid to avoid overflow
             mid = low + (high - low) // 2
 
-            # if the entire search space is sorted
+            # If the entire search space is sorted, the minimum is at low
             if nums[low] <= nums[high]:
                 ans = min(ans, nums[low])
                 break
 
-            # find first half is sorted
+            # If the left half is sorted
             if nums[low] <= nums[mid]:
-                ans = min(ans, nums[low])
-                low = mid + 1
+                ans = min(ans, nums[low])  # Update answer with leftmost value
+                low = mid + 1  # Move to the right half
             else:
-                ans = min(ans, nums[mid])
-                high = mid - 1
+                # Otherwise, the right half is sorted or contains the min
+                ans = min(ans, nums[mid])  # Update answer with mid value
+                high = mid - 1  # Move to the left half
         return ans
 
 
