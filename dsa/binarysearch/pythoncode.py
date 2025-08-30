@@ -270,6 +270,35 @@ class BinarySearch:
                 high = mid - 1  # Move to the left half
         return ans
 
+    def find_k_rotation(self, nums: list[int]):
+        n = len(nums)
+        low, high = 0, n - 1
+        ans = float("inf")
+        ans_idx = -1
+
+        while low <= high:
+            mid = low + (high - low) // 2
+
+            low_val = nums[low]
+            mid_value = nums[mid]
+
+            if low_val <= nums[high]:
+                if ans > low_val:
+                    ans = low_val
+                    ans_idx = low
+                    break
+            if low_val <= mid_value:
+                if ans > low_val:
+                    ans = low_val
+                    ans_idx = low
+                low = mid + 1
+            else:
+                if ans > mid_value:
+                    ans = mid_value
+                    ans_idx = mid
+                high = mid - 1
+        return ans_idx
+
 
 def test_binary_search():
     bs = BinarySearch()
@@ -286,6 +315,9 @@ def test_binary_search():
         f"Search in Rotated sorted array 2 {bs.search_in_rotated_sorted_array_2([2, 5, 6, 0, 0, 1, 2], 2)}"
     )
     print(f"Find Mind {bs.find_min([3, 4, 5, 1, 2])}")
+    print(
+        f"How many times array has been rotated {bs.find_k_rotation([3, 4, 5, 1, 2])}"
+    )
 
 
 test_binary_search()
