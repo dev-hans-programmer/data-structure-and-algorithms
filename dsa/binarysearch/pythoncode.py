@@ -312,27 +312,47 @@ class BinarySearch:
         return ans_idx
 
     def single_non_duplicate_number(self, nums: list[int]):
-        n = len(nums)
-        low, high = 1, n - 2
+        """
+        Finds the single non-duplicate element in a sorted array where every other element appears exactly twice.
+        Approach: Binary search using index parity to find the unique element.
+        Time: O(log n), Space: O(1)
+        Returns the single non-duplicate number, or -1 if not found.
+        Note: Only works for sorted arrays with exactly one non-duplicate and all others appearing twice.
 
+        Before the single element, everything is (even, odd) index based, and after it (odd, even)
+        based on this logic, we eliminated the halves
+        """
+        n = len(nums)
+        low, high = (
+            1,
+            n - 2,
+        )  # Start from 1 and n-2 to avoid out-of-bounds for mid-1/mid+1
+
+        # Edge case: only one element
         if n == 1:
             return nums[0]
+        # Edge case: unique element is at the start
         elif nums[0] != nums[1]:
             return nums[0]
+        # Edge case: unique element is at the end
         elif nums[n - 1] != nums[n - 2]:
             return nums[n - 1]
 
         while low <= high:
+            # Calculate mid
             mid = (low + high) // 2
 
+            # Check if mid is the unique element
             if nums[mid] != nums[mid - 1] and nums[mid] != nums[mid + 1]:
                 return nums[mid]
 
-            if (mid % 2 == 1 and nums[mid] == nums[mid - 1]) or (
-                mid % 2 == 0 and nums[mid] == nums[mid + 1]
+            # If mid is even and equals next, or mid is odd and equals previous, unique is to the right
+            if (mid % 2 == 0 and nums[mid] == nums[mid + 1]) or (
+                mid % 2 == 1 and nums[mid] == nums[mid - 1]
             ):
                 low = mid + 1
             else:
+                # Otherwise, unique is to the left
                 high = mid - 1
         return -1
 
