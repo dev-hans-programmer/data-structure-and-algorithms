@@ -311,6 +311,31 @@ class BinarySearch:
                 high = mid - 1  # Move to the left half
         return ans_idx
 
+    def single_non_duplicate_number(self, nums: list[int]):
+        n = len(nums)
+        low, high = 1, n - 2
+
+        if n == 1:
+            return nums[0]
+        elif nums[0] != nums[1]:
+            return nums[0]
+        elif nums[n - 1] != nums[n - 2]:
+            return nums[n - 1]
+
+        while low <= high:
+            mid = (low + high) // 2
+
+            if nums[mid] != nums[mid - 1] and nums[mid] != nums[mid + 1]:
+                return nums[mid]
+
+            if (mid % 2 == 1 and nums[mid] == nums[mid - 1]) or (
+                mid % 2 == 0 and nums[mid] == nums[mid + 1]
+            ):
+                low = mid + 1
+            else:
+                high = mid - 1
+        return -1
+
 
 def test_binary_search():
     bs = BinarySearch()
@@ -330,6 +355,7 @@ def test_binary_search():
     print(
         f"How many times array has been rotated {bs.find_k_rotation([3, 4, 5, 1, 2])}"
     )
+    print(f"Non duplicate number {bs.single_non_duplicate_number([1, 1, 3, 5, 5])}")
 
 
 test_binary_search()
