@@ -394,18 +394,26 @@ class BinarySearch:
         return -1
 
     def square_root_number(self, target: int):
-        low, high = 1, target
-
-        ans = 1
+        """
+        Finds the integer part of the square root of a non-negative integer using binary search.
+        Approach: Binary search for the largest integer whose square is less than or equal to target.
+        Time: O(log target), Space: O(1)
+        Returns the integer square root (i.e., floor of the true square root).
+        Note: Returns 0 for target = 0. For negative input, behavior is undefined.
+        """
+        low, high = 1, target  # Search space is [1, target]
+        ans = 1  # Default answer for target >= 1
 
         while low <= high:
+            # Calculate mid
             mid = (low + high) // 2
 
+            # If mid*mid is less than or equal to target, mid is a candidate
             if mid * mid <= target:
-                ans = mid
-                low = mid + 1
+                ans = mid  # Update answer
+                low = mid + 1  # Try to find a larger square root
             else:
-                high = mid - 1
+                high = mid - 1  # Try smaller values
         return ans
 
 
