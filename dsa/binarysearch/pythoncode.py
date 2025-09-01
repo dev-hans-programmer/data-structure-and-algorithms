@@ -393,6 +393,21 @@ class BinarySearch:
                 high = mid - 1
         return -1
 
+    def square_root_number(self, target: int):
+        low, high = 1, target
+
+        ans = 1
+
+        while low <= high:
+            mid = (low + high) // 2
+
+            if mid * mid <= target:
+                ans = mid
+                low = mid + 1
+            else:
+                high = mid - 1
+        return ans
+
 
 def test_binary_search():
     bs = BinarySearch()
@@ -414,6 +429,7 @@ def test_binary_search():
     )
     print(f"Non duplicate number {bs.single_non_duplicate_number([1, 1, 3, 5, 5])}")
     print(f"Peak element {bs.find_peak_element([1, 2, 1, 3, 5, 6, 4])}")
+    print(f"Square root of {bs.square_root_number(6)}")
 
 
 test_binary_search()
