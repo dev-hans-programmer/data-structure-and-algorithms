@@ -357,25 +357,39 @@ class BinarySearch:
         return -1
 
     def find_peak_element(self, nums: list[int]):
+        """
+        Finds a peak element in the array (an element strictly greater than its neighbors).
+        Approach: Binary search to find a peak (not necessarily the global maximum).
+        Time: O(log n), Space: O(1)
+        Returns the index of a peak element, or -1 if not found (should not happen for valid input).
+        Note: For arrays with multiple peaks, any peak index may be returned. Edges are considered peaks if they are greater than their single neighbor.
+        """
         n = len(nums)
-        low, high = 1, n - 2
+        low, high = 1, n - 2  # Avoid out-of-bounds for mid-1 and mid+1
 
+        # Edge case: only one element
         if n == 1:
             return 0
+        # Edge case: peak at the start
         elif nums[0] > nums[1]:
             return 0
+        # Edge case: peak at the end
         elif nums[n - 1] > nums[n - 2]:
             return n - 1
 
         while low <= high:
+            # Calculate mid
             mid = (low + high) // 2
 
+            # Check if mid is a peak
             if nums[mid - 1] < nums[mid] > nums[mid + 1]:
                 return mid
 
+            # If the left neighbor is less, move right
             elif nums[mid - 1] < nums[mid]:
                 low = mid + 1
             else:
+                # Otherwise, move left
                 high = mid - 1
         return -1
 
