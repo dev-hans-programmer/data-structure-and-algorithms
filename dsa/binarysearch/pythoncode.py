@@ -356,6 +356,29 @@ class BinarySearch:
                 high = mid - 1
         return -1
 
+    def find_peak_element(self, nums: list[int]):
+        n = len(nums)
+        low, high = 1, n - 2
+
+        if n == 1:
+            return 0
+        elif nums[0] > nums[1]:
+            return 0
+        elif nums[n - 1] > nums[n - 2]:
+            return n - 1
+
+        while low <= high:
+            mid = (low + high) // 2
+
+            if nums[mid - 1] < nums[mid] > nums[mid + 1]:
+                return mid
+
+            elif nums[mid - 1] < nums[mid]:
+                low = mid + 1
+            else:
+                high = mid - 1
+        return -1
+
 
 def test_binary_search():
     bs = BinarySearch()
@@ -376,6 +399,7 @@ def test_binary_search():
         f"How many times array has been rotated {bs.find_k_rotation([3, 4, 5, 1, 2])}"
     )
     print(f"Non duplicate number {bs.single_non_duplicate_number([1, 1, 3, 5, 5])}")
+    print(f"Peak element {bs.find_peak_element([1, 2, 1, 3, 5, 6, 4])}")
 
 
 test_binary_search()
