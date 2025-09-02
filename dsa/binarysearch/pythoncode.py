@@ -442,6 +442,29 @@ class BinarySearch:
                 low = mid + 1
         return -1
 
+    def get_total_time_to_eat_banana(self, bananas: list[int], rate: int):
+        import math
+
+        total_hours = 0
+        for banana in bananas:
+            total_hours += math.ceil(banana / rate)
+        return total_hours
+
+    def min_rate_to_eat_banana(self, bananas: list[int], given_time: int):
+        low, high = 1, max(bananas)
+        ans = float("inf")
+        while low <= high:
+            mid = (low + high) // 2
+
+            taken_time = self.get_total_time_to_eat_banana(bananas, mid)
+
+            if taken_time <= given_time:
+                high = mid - 1
+                ans = mid
+            else:
+                low = mid + 1
+        return ans
+
 
 def test_binary_search():
     bs = BinarySearch()
@@ -465,6 +488,7 @@ def test_binary_search():
     print(f"Peak element {bs.find_peak_element([1, 2, 1, 3, 5, 6, 4])}")
     print(f"Square root of {bs.square_root_number(6)}")
     print(f"Nth Roor of a number {bs.nth_root_of_m(4, 256)}")
+    print(f"Banana eaten per hour {bs.min_rate_to_eat_banana([25, 12, 8, 14, 19], 5)}")
 
 
 test_binary_search()
