@@ -427,18 +427,30 @@ class BinarySearch:
         ...
 
     def nth_root_of_m(self, n: int, m: int):
-        low, high = 1, m
+        """
+        Finds the integer nth root of a number m using binary search.
+        Approach: Binary search for the largest integer x such that x^n <= m.
+        Time: O(log m * n), Space: O(1)
+        Returns the integer nth root (i.e., floor of the true nth root), or -1 if not found.
+        Note: Assumes m >= 1 and n >= 1. For negative or zero input, behavior is undefined.
+        """
+        low, high = 1, m  # Search space is [1, m]
 
         while low <= high:
+            # Calculate mid
             mid = (low + high) // 2
 
+            # Compute mid^n using helper function
             power = self.fn(mid, m, n)
 
+            # If mid^n equals m, mid is the answer
             if power == m:
                 return mid
+            # If mid^n is greater than m, try smaller values
             elif power > m:
                 high = mid - 1
             else:
+                # If mid^n is less than m, try larger values
                 low = mid + 1
         return -1
 
@@ -451,17 +463,29 @@ class BinarySearch:
         return total_hours
 
     def min_rate_to_eat_banana(self, bananas: list[int], given_time: int):
-        low, high = 1, max(bananas)
-        ans = float("inf")
+        """
+        Koko banana eating challenge
+        Finds the minimum integer eating rate to finish all bananas within the given time.
+        Approach: Binary search for the smallest rate such that the total eating time is <= given_time.
+        Time: O(n log m), where n = number of piles, m = max(bananas).
+        Returns the minimum rate (bananas per hour) to finish all bananas in given_time hours.
+        Note: Uses a helper function to compute total time for a given rate.
+        """
+        low, high = 1, max(bananas)  # Search space is [1, max(bananas)]
+        ans = float("inf")  # Initialize answer to infinity
         while low <= high:
+            # Calculate mid (current eating rate)
             mid = (low + high) // 2
 
+            # Compute total time needed at this rate
             taken_time = self.get_total_time_to_eat_banana(bananas, mid)
 
+            # If total time is within the allowed time, try a smaller rate
             if taken_time <= given_time:
                 high = mid - 1
-                ans = mid
+                ans = mid  # Update answer
             else:
+                # Otherwise, try a larger rate
                 low = mid + 1
         return ans
 
