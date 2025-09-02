@@ -416,6 +416,32 @@ class BinarySearch:
                 high = mid - 1  # Try smaller values
         return ans
 
+    def fn(self, i: int, m: int, n: int):
+        result = 1
+
+        for _ in range(n):
+            result *= i
+            if result > m:
+                return result
+        return result
+        ...
+
+    def nth_root_of_m(self, n: int, m: int):
+        low, high = 1, m
+
+        while low <= high:
+            mid = (low + high) // 2
+
+            power = self.fn(mid, m, n)
+
+            if power == m:
+                return mid
+            elif power > m:
+                high = mid - 1
+            else:
+                low = mid + 1
+        return -1
+
 
 def test_binary_search():
     bs = BinarySearch()
@@ -438,6 +464,7 @@ def test_binary_search():
     print(f"Non duplicate number {bs.single_non_duplicate_number([1, 1, 3, 5, 5])}")
     print(f"Peak element {bs.find_peak_element([1, 2, 1, 3, 5, 6, 4])}")
     print(f"Square root of {bs.square_root_number(6)}")
+    print(f"Nth Roor of a number {bs.nth_root_of_m(4, 256)}")
 
 
 test_binary_search()
