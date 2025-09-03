@@ -489,6 +489,42 @@ class BinarySearch:
                 low = mid + 1
         return ans
 
+    def is_bouquet_possible(
+        self, bloom_days: list[int], current_day: int, m: int, k: int
+    ):
+        flowers_bloomed = 0
+        bouquet = 0
+
+        for day in bloom_days:
+            if day <= current_day:
+                flowers_bloomed += 1
+
+                if flowers_bloomed == k:
+                    bouquet += 1
+                    flowers_bloomed = 0
+            else:
+                flowers_bloomed = 0
+        return bouquet >= m
+
+    def min_days_to_make_bouquet(self, bloom_days: list[int], m: int, k: int):
+        low, high = 1, max(bloom_days)
+        ans = -1
+
+        if m * k > len(bloom_days):
+            return -1
+
+        while low <= high:
+            mid = (low + high) // 2
+
+            is_boquet_possible = self.is_bouquet_possible(bloom_days, mid, m, k)
+
+            if is_boquet_possible:
+                ans = mid
+                high = mid - 1
+            else:
+                low = mid + 1
+        return ans
+
 
 def test_binary_search():
     bs = BinarySearch()
@@ -513,6 +549,7 @@ def test_binary_search():
     print(f"Square root of {bs.square_root_number(6)}")
     print(f"Nth Roor of a number {bs.nth_root_of_m(4, 256)}")
     print(f"Banana eaten per hour {bs.min_rate_to_eat_banana([25, 12, 8, 14, 19], 5)}")
+    print(f"Flowers bloomed {bs.min_days_to_make_bouquet([1, 10, 3, 10, 2], 3, 2)}")
 
 
 test_binary_search()
