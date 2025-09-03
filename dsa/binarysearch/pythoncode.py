@@ -492,37 +492,53 @@ class BinarySearch:
     def is_bouquet_possible(
         self, bloom_days: list[int], current_day: int, m: int, k: int
     ):
-        flowers_bloomed = 0
-        bouquet = 0
+        """
+        Checks if it is possible to make m bouquets, each with k consecutive flowers, by current_day.
+        Approach: Greedy scan to count bouquets that can be formed with flowers bloomed by current_day.
+        Time: O(n), Space: O(1), where n = len(bloom_days).
+        Returns True if possible, False otherwise.
+        Note: Used as a helper for the binary search in min_days_to_make_bouquet.
+        """
+        flowers_bloomed = 0  # Counter for consecutive bloomed flowers
+        bouquet = 0  # Counter for bouquets formed
 
         for day in bloom_days:
             if day <= current_day:
-                flowers_bloomed += 1
+                flowers_bloomed += 1  # Flower is bloomed by current_day
 
                 if flowers_bloomed == k:
-                    bouquet += 1
-                    flowers_bloomed = 0
+                    bouquet += 1  # Form a bouquet
+                    flowers_bloomed = 0  # Reset for next bouquet
             else:
-                flowers_bloomed = 0
-        return bouquet >= m
+                flowers_bloomed = 0  # Reset if a flower hasn't bloomed
+        return bouquet >= m  # Check if required bouquets can be formed
 
     def min_days_to_make_bouquet(self, bloom_days: list[int], m: int, k: int):
-        low, high = 1, max(bloom_days)
-        ans = -1
+        """
+        Finds the minimum number of days required to make m bouquets, each with k consecutive flowers.
+        Approach: Binary search on days, using is_bouquet_possible as a helper to check feasibility.
+        Time: O(n log D), where n = len(bloom_days), D = max(bloom_days).
+        Returns the minimum day required, or -1 if impossible.
+        Note: Returns -1 if not enough flowers to form m bouquets.
+        """
+        low, high = 1, max(bloom_days)  # Search space is [1, max bloom day]
+        ans = -1  # Initialize answer to -1 (impossible)
 
         if m * k > len(bloom_days):
-            return -1
+            return -1  # Not enough flowers to form m bouquets
 
         while low <= high:
+            # Calculate mid (current day)
             mid = (low + high) // 2
 
+            # Check if it's possible to make bouquets by mid day
             is_boquet_possible = self.is_bouquet_possible(bloom_days, mid, m, k)
 
             if is_boquet_possible:
-                ans = mid
-                high = mid - 1
+                ans = mid  # Update answer
+                high = mid - 1  # Try to find an earlier day
             else:
-                low = mid + 1
+                low = mid + 1  # Try to find a later day
         return ans
 
 
